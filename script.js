@@ -52,6 +52,7 @@ function userPasswordOptions() {
   }
   // Final object to be returned when function ran
   var userCoicesObject = {
+    passLength: userPasswordLength,
     upper: userCharUpper,
     lower: userCharLower,
     number: userCharNumber,
@@ -68,32 +69,65 @@ function getRandomElement(characterArrays) {
   return randomElement;
 }
 
+// Function to generate password based on length provided and random elements pulled from Arrays
+function generatePassword() {
 
+  var userCoices = userPasswordOptions();
 
+  var result = [];
 
+  var possibleCharacters = [];
 
+  var requiredCharacters = [];
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  function generatePassword() {
-    var userCoices = userPasswordOptions();
-    var randomTest = getRandomElement(charSpecial);
-    console.log(userCoices);
-    console.log(randomTest);
+  // If statement to check if user selected Uppercase characters
+  // Generates the entire array to possible characters array and a random character to the required characters array
+  if (userCoices.upper) {
+    possibleCharacters.push(...charUpper);
+    var upperCharacters = getRandomElement(charUpper);
+    requiredCharacters.push(upperCharacters);
+  }
+  // If statement to check if user selected lowercase characters
+  if (userCoices.lower) {
+    possibleCharacters.push(...charLower);
+    var lowerCharacters = getRandomElement(charLower);
+    requiredCharacters.push(lowerCharacters);
+  }
+  // If statement to check if user selected numbers
+  if (userCoices.number) {
+    possibleCharacters.push(...charNumber);
+    var numberCharacters = getRandomElement(charNumber);
+    requiredCharacters.push(numberCharacters);
+  }
+  // If statement to check if user selected special characters
+  if (userCoices.special) {
+    possibleCharacters.push(...charSpecial);
+    var specialCharacters = getRandomElement(charSpecial);
+    requiredCharacters.push(specialCharacters);
   }
 
+  for (i = 0; i < userCoices.passLength; i++) {
+    var possiblecharacter = getRandomElement(possibleCharacters);
+    result.push(possiblecharacter);
+  }
+
+  for (i = 0; i < requiredCharacters.length; i++){
+    result[i] = requiredCharacters[i];
+  }
+
+
+
+  console.log(userCoices);
+  console.log(upperCharacters);
+  console.log(lowerCharacters);
+  console.log(numberCharacters);
+  console.log(specialCharacters); 
+  console.log(possibleCharacters);
+  console.log(requiredCharacters);
+  console.log(result);
+
+  return result.join("");
+}
 
 
 // Write password to the #password input
@@ -104,7 +138,6 @@ function writePassword() {
   var passwordText = document.querySelector("#password");
 
   passwordText.value = password;
-
 }
 
 // Add event listener to generate button
