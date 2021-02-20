@@ -23,27 +23,15 @@ function userPasswordOptions() {
 
   // prompt user for Uppercase letters  
   var userCharUpper = window.confirm("Would you like your password to contain uppercase letters?");
-  if (userCharUpper) {
-    console.log("confirm: Uppercase");
-  }
 
   // prompt user for lowercase letters
   var userCharLower = window.confirm("Would you like your password to contain lowercase letters?");
-  if (userCharLower) {
-    console.log("confirm: Lowercase");
-  }
 
   // prompt user for numeric characters
   var userCharNumber = window.confirm("Would you like your password to contain Numbers?");
-  if (userCharNumber) {
-    console.log("confirm: Numbers");
-  }
 
   // prompt user for special characters 
   var userCharSpecial = window.confirm("Would you like your password to contain special characters?");
-  if (userCharSpecial) {
-    console.log("confirm: Special Characters");
-  }
 
   // Check if user included any variables
   if (userCharUpper === false && userCharLower === false && userCharNumber === false && userCharSpecial === false) {
@@ -58,7 +46,7 @@ function userPasswordOptions() {
     number: userCharNumber,
     special: userCharSpecial
   };
-
+  // push object out to global scope, returned as values userChoices
   return userCoicesObject;
 }
 
@@ -71,13 +59,16 @@ function getRandomElement(characterArrays) {
 
 // Function to generate password based on length provided and random elements pulled from Arrays
 function generatePassword() {
-
+  // Call the password options function to obtain user input, user input is the saved in the variable userChoices
   var userCoices = userPasswordOptions();
 
+  //  Array to hold final password
   var result = [];
 
+  // Array that will hold the every possible charcter the user has selected
   var possibleCharacters = [];
 
+  // Array that will hold the randomly generated 
   var requiredCharacters = [];
 
   // If statement to check if user selected Uppercase characters
@@ -106,31 +97,26 @@ function generatePassword() {
     requiredCharacters.push(specialCharacters);
   }
 
+  // for loop that pulls a random character from the list of possible choices for the specified length of password
   for (i = 0; i < userCoices.passLength; i++) {
     var possiblecharacter = getRandomElement(possibleCharacters);
     result.push(possiblecharacter);
   }
 
+  // Overwrite the first characters with the required charcters selected
   for (i = 0; i < requiredCharacters.length; i++){
     result[i] = requiredCharacters[i];
   }
-
-
-
-  console.log(userCoices);
-  console.log(upperCharacters);
-  console.log(lowerCharacters);
-  console.log(numberCharacters);
-  console.log(specialCharacters); 
-  console.log(possibleCharacters);
-  console.log(requiredCharacters);
-  console.log(result);
-
+  // return the password as a concatenated string
   return result.join("");
 }
 
-
-// Write password to the #password input
+// After generate button is clicked, write password function is ran
+  // which contains generate password function
+    // which contains user options function
+// password generated as result is stored in password var 
+// password display location on html is linked with #password id
+// the display location variables value is then changed to the value of password
 function writePassword() {
 
   var password = generatePassword();
@@ -142,7 +128,6 @@ function writePassword() {
 
 // Add event listener to generate button
 generateBtn.addEventListener("click", writePassword);
-
 
 
 
