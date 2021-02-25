@@ -7,18 +7,21 @@ var charLower = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m"
 var charNumber = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"];
 var charSpecial = ["!", "@", "#", "$", "%", "^", "&", "*", "(", ")", ";", ":", ",", ".", "/", "?"];
 
+
+// Function to gather user input
 function userPasswordOptions() {
+
   window.alert("You have selected to generate a password. Please answer the following criteria:");
   // Prompt user for Character count
   // password must be 8-128 characters & a number
   var userPasswordLength = window.prompt("Please select a password length. The password must be between 8 & 128 characters:");
   if (isNaN(userPasswordLength) === true) {
     window.alert("Your password length must be declared as a number");
-    return;
+    return false;
   }
   else if (userPasswordLength < 8 || userPasswordLength > 128) {
     window.alert("The password must be between 8 and 128 characters");
-    return;
+    return false;
   }
 
   // prompt user for Uppercase letters  
@@ -36,10 +39,10 @@ function userPasswordOptions() {
   // Check if user included any variables
   if (userCharUpper === false && userCharLower === false && userCharNumber === false && userCharSpecial === false) {
     window.alert("You must select at least one character type.");
-    return;
+    return false;
   }
   // Final object to be returned when function ran
-  var userCoicesObject = {
+  var userChoicesObject = {
     passLength: userPasswordLength,
     upper: userCharUpper,
     lower: userCharLower,
@@ -47,20 +50,20 @@ function userPasswordOptions() {
     special: userCharSpecial
   };
   // push object out to global scope, returned as values userChoices
-  return userCoicesObject;
+  return userChoicesObject;
 }
 
 // Function that will pull a random element from an array
 function getRandomElement(characterArrays) {
   var randomIndex = Math.floor(Math.random() * characterArrays.length);
-  var randomElement = characterArrays[Math.floor(Math.random() * randomIndex)];
+  var randomElement = characterArrays[randomIndex];
   return randomElement;
 }
 
 // Function to generate password based on length provided and random elements pulled from Arrays
 function generatePassword() {
   // Call the password options function to obtain user input, user input is the saved in the variable userChoices
-  var userCoices = userPasswordOptions();
+  var userChoices = userPasswordOptions();
 
   //  Array to hold final password
   var result = [];
@@ -73,32 +76,32 @@ function generatePassword() {
 
   // If statement to check if user selected Uppercase characters
   // Generates the entire array to possible characters array and a random character to the required characters array
-  if (userCoices.upper) {
+  if (userChoices.upper) {
     possibleCharacters.push(...charUpper);
     var upperCharacters = getRandomElement(charUpper);
     requiredCharacters.push(upperCharacters);
   }
   // If statement to check if user selected lowercase characters
-  if (userCoices.lower) {
+  if (userChoices.lower) {
     possibleCharacters.push(...charLower);
     var lowerCharacters = getRandomElement(charLower);
     requiredCharacters.push(lowerCharacters);
   }
   // If statement to check if user selected numbers
-  if (userCoices.number) {
+  if (userChoices.number) {
     possibleCharacters.push(...charNumber);
     var numberCharacters = getRandomElement(charNumber);
     requiredCharacters.push(numberCharacters);
   }
   // If statement to check if user selected special characters
-  if (userCoices.special) {
+  if (userChoices.special) {
     possibleCharacters.push(...charSpecial);
     var specialCharacters = getRandomElement(charSpecial);
     requiredCharacters.push(specialCharacters);
   }
 
   // for loop that pulls a random character from the list of possible choices for the specified length of password
-  for (i = 0; i < userCoices.passLength; i++) {
+  for (i = 0; i < userChoices.passLength; i++) {
     var possiblecharacter = getRandomElement(possibleCharacters);
     result.push(possiblecharacter);
   }
@@ -118,6 +121,7 @@ function generatePassword() {
 // password display location on html is linked with #password id
 // the display location variables value is then changed to the value of password
 function writePassword() {
+
 
   var password = generatePassword();
 
